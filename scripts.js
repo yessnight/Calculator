@@ -4,6 +4,27 @@ let previousOperator;
 
 const screen = document.querySelector('.screen');
 
+document.addEventListener("keydown", function(event) {
+const key = event.key;
+
+if(!isNaN(key)) {
+    handleNumber(key);
+} else if (key === "+" || key === "-" || key === "*" || key === "/" || key === "=" || key === "Enter") {
+    handleSymbol(convertKeyToSymbol(key));
+} else if (key === "Backspace") {
+    handleSymbol("←");
+} else if (key === "Delete") {
+    handleSymbol("C");
+} else if (key === ".") {
+    handleSymbol(".");
+} else if (key === "[") {
+    handleSymbol("√");
+} else if (key === "]") {
+    handleSymbol("%");
+}
+screen.innerText = buffer;
+});
+
 function buttonClick(value){
     if(isNaN(value)){
         handleSymbol(value);
@@ -41,10 +62,31 @@ function handleSymbol(symbol){
             }
             break;
         case '+':
-        case '−':
         case '×':
         case '÷':
             handleMath(symbol);
+            break;
+        case '%':
+            if (previousOperator) {
+                buffer = (runnigTotal * (parseFloat(buffer) / 100)).toString();
+            } else {
+                buffer = (parseFloat(buffer) / 100).toString();
+            }
+            break;
+        case '√':
+            const floatBuffer = parseFloat(buffer);
+            if(floatBuffer >= 0) {
+                buffer = Math.sqrt(floatBuffer).toString();
+            } else {
+                buffer = "Error";
+            }
+            break;
+        case '−':
+            if (buffer === "0") {
+                buffer = "-";
+            } else {
+                handleMath(symbol);
+            }
             break;
     }
 }
@@ -79,11 +121,24 @@ function flushOperation(intBuffer){
     buffer = runnigTotal.toString();
 }
 
-function handleNumber(numberString){
-    if(buffer === "0"){
+function handleNumber(numberString) {
+    if (buffer === "0") {
         buffer = numberString;
-    }else{
+    } else if (buffer === "−") {
         buffer += numberString;
+    } else {
+        buffer += numberString;
+    }
+}
+
+function convertKeyToSymbol(key) {
+    switch (key) {
+        case "+": return "+";
+        case "-": return "−";
+        case "*": return "×";
+        case "/": return "÷";
+        case "Enter": return "=";
+        default: return key;
     }
 }
 
