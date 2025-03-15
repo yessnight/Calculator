@@ -74,7 +74,7 @@ body {
   height: 65px;
 }
 
-.calc-button:last-child {
+.first {
   backdrop-filter: blur(5.5px);
   -webkit-backdrop-filter: blur(5.5px);
   background: rgba(255, 255, 255, 0.75);
@@ -84,8 +84,14 @@ body {
   color: #fff;
   background-color: #d72880;
 }
-
-.calc-button:last-child:hover {
+.second {
+  background-color: #d72880;
+  color: #fff;
+}
+.second:hover {
+  color: inherit;
+}
+.first:hover {
   background-color: inherit;
   color: inherit;
 }
@@ -98,9 +104,11 @@ body {
 .calc-button:active {
   background-color: #ffef78;
 }
-
+.third {
+  background: rgba(255, 255, 255, 0.75);
+}
 .double {
-  flex-basis: 47%;
+  flex-basis: 1;
 }
 
 .triple {
